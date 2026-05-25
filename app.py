@@ -56,12 +56,20 @@ with st.sidebar:
         available_books = []
         st.warning(f"Could not list books: {e}")
     if available_books:
+        st.caption(
+            "Cochez UN SEUL livre pour limiter la recherche à ce livre, "
+            "ou plusieurs pour chercher dans plusieurs. Décocher tout = recherche partout."
+        )
         selected_books = st.multiselect(
-            "Search in",
+            "Filtrer la recherche",
             options=available_books,
             default=available_books,
-            help="Filter retrieval to specific books. Empty = no filter.",
+            help="Click × on a chip to remove a book from the search.",
         )
+        if len(selected_books) == 1:
+            st.info(f"🔍 Recherche uniquement dans **{selected_books[0]}**")
+        elif len(selected_books) == 0:
+            st.warning("Aucun livre sélectionné → recherche dans tout le corpus.")
     else:
         selected_books = []
         st.caption("Books appear here once you ingest a PDF.")

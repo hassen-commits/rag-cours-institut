@@ -105,7 +105,7 @@ def generate(messages: Iterable[dict]) -> bytes:
     pdf.add_page()
 
     pdf.set_font("Body", "B", 14)
-    pdf.multi_cell(0, 9, _shape("Conversation — رسالة المسترشدين"), align="R")
+    pdf.multi_cell(0, 9, _shape("Conversation — رسالة المسترشدين"), align="R", new_x="LMARGIN", new_y="NEXT")
     pdf.set_font("Body", "", 10)
     pdf.set_text_color(120, 120, 120)
     pdf.cell(
@@ -132,7 +132,7 @@ def generate(messages: Iterable[dict]) -> bytes:
 
         pdf.set_font("Body", "", 11)
         for shaped, align in _shape_lines(content):
-            pdf.multi_cell(0, 6, shaped, align=align)
+            pdf.multi_cell(0, 6, shaped, align=align, new_x="LMARGIN", new_y="NEXT")
         pdf.ln(2)
 
         if sources:
@@ -153,7 +153,7 @@ def generate(messages: Iterable[dict]) -> bytes:
                 if len(excerpt) > 500:
                     excerpt = excerpt[:500] + "…"
                 for shaped, align in _shape_lines(excerpt):
-                    pdf.multi_cell(0, 5, shaped, align=align)
+                    pdf.multi_cell(0, 5, shaped, align=align, new_x="LMARGIN", new_y="NEXT")
                 pdf.ln(1)
 
         pdf.ln(4)
