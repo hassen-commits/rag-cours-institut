@@ -140,7 +140,9 @@ def generate(messages: Iterable[dict]) -> bytes:
             pdf.cell(0, 6, "Sources", new_x="LMARGIN", new_y="NEXT")
             pdf.set_font("Body", "", 9)
             for s in sources:
-                src = os.path.basename(getattr(s, "source", "?"))
+                # Normalize backslashes first so basename works on Linux for Windows-style paths
+                # stored in Chroma metadata when the ingest ran on Windows.
+                src = os.path.basename(str(getattr(s, "source", "?")).replace("\\", "/"))
                 page = getattr(s, "page", -1)
                 dist = getattr(s, "distance", 0.0)
                 pdf.set_font("Body", "B", 9)

@@ -113,7 +113,7 @@ for msg in st.session_state.messages:
             with st.expander("Sources"):
                 for s in msg["sources"]:
                     st.markdown(
-                        f"**{os.path.basename(s.source)} — p.{s.page}** "
+                        f"**{os.path.basename(str(s.source).replace("\\", "/"))} — p.{s.page}** "
                         f"<span class='source-tag'>(dist={s.distance:.3f})</span>",
                         unsafe_allow_html=True,
                     )
@@ -145,7 +145,7 @@ if prompt:
             with st.expander("Sources"):
                 for s in sources:
                     st.markdown(
-                        f"**{os.path.basename(s.source)} — p.{s.page}** "
+                        f"**{os.path.basename(str(s.source).replace("\\", "/"))} — p.{s.page}** "
                         f"<span class='source-tag'>(dist={s.distance:.3f})</span>",
                         unsafe_allow_html=True,
                     )
