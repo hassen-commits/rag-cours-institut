@@ -20,12 +20,23 @@ from fpdf import FPDF
 
 ARABIC_CHAR = re.compile(r"[؀-ۿݐ-ݿﭐ-﷿ﹰ-﻿]")
 
+_HERE = Path(__file__).parent
+
+# Bundled font is checked first so deploys to Linux (Streamlit Cloud) work
+# without needing any system fonts. Local Windows/Linux paths follow as
+# convenience fallbacks if the bundled font ever goes missing.
 FONT_CANDIDATES_REGULAR = [
+    _HERE / "assets" / "fonts" / "DejaVuSans.ttf",
+    Path("/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"),
+    Path("/usr/share/fonts/TTF/DejaVuSans.ttf"),
     Path(r"C:\Windows\Fonts\arial.ttf"),
     Path(r"C:\Windows\Fonts\tahoma.ttf"),
     Path(r"C:\Windows\Fonts\segoeui.ttf"),
 ]
 FONT_CANDIDATES_BOLD = [
+    _HERE / "assets" / "fonts" / "DejaVuSans-Bold.ttf",
+    Path("/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"),
+    Path("/usr/share/fonts/TTF/DejaVuSans-Bold.ttf"),
     Path(r"C:\Windows\Fonts\arialbd.ttf"),
     Path(r"C:\Windows\Fonts\tahomabd.ttf"),
     Path(r"C:\Windows\Fonts\segoeuib.ttf"),
