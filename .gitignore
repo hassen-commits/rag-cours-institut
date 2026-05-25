@@ -1,0 +1,12 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ocr_cache/
+.streamlit/secrets.toml
+.idea/
+.vscode/
+
+# chroma_db is NOT ignored — it ships with the repo so Streamlit Cloud
+# deployments don't have to re-OCR (which costs money). The DB is ~12 MB.
