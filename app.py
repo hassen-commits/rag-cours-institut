@@ -81,21 +81,11 @@ with st.sidebar:
         st.rerun()
 
     st.header("Export")
-    msgs = st.session_state.get("messages", [])
-    if msgs:
-        try:
-            pdf_bytes = generate_pdf(msgs)
-            st.download_button(
-                label="📥 Exporter en PDF",
-                data=pdf_bytes,
-                file_name=f"conversation-{datetime.now():%Y%m%d-%H%M}.pdf",
-                mime="application/pdf",
-                use_container_width=True,
-            )
-        except Exception as e:
-            st.error(f"PDF export failed: {e}")
-    else:
-        st.caption("Posez une question pour activer l'export PDF.")
+    # Placeholder so the Export section can be filled at the END of the script,
+    # AFTER the prompt handler has appended new messages. Otherwise the sidebar
+    # would render stale state and the download button would only appear on the
+    # next interaction.
+    export_slot = st.empty()
 
     st.caption(f"Chat model: `{os.environ.get('CHAT_MODEL', 'gpt-4o-mini')}`")
     st.caption(
@@ -154,3 +144,22 @@ if prompt:
     st.session_state.messages.append(
         {"role": "assistant", "content": reply, "sources": sources}
     )
+
+# Fill the sidebar Export placeholder with the up-to-date message list. Runs
+# at the end of the script so it always sees the latest session_state.
+_msgs = st.session_state.get("messages", [])
+with export_slot.container():
+    if _msgs:
+        try:
+            _pdf_bytes = generate_pdf(_msgs)
+            st.download_button(
+                label="📥 Exporter en PDF",
+                data=_pdf_bytes,
+                file_name=f"conversation-{datetime.now():%Y%m%d-%H%M}.pdf",
+                mime="application/pdf",
+                use_container_width=True,
+            )
+        except Exception as e:
+            st.error(f"PDF export failed: {e}")
+    else:
+        st.caption("Posez une question pour activer l'export PDF.")
